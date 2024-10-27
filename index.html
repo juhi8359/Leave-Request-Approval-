@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIT Dharwad Leave Approval Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: url("m.jpg") no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        header {
+            background: green;
+            color:white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            flex: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+            width: 100%;
+            height: calc(100% - 60px); /* Adjust for header and footer height */
+            margin-top: 60px; /* Space for header */
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .left, .profile-sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: calc(100% - 80px); /* Adjust based on header height */
+            top:40px;
+            left: -280px;
+            transition: left 0.3s ease-in-out;
+            z-index: 999;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 200px;
+            margin-top: 50px;
+            padding: 20px;
+            font-weight: bold;
+            line-height: 50px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .toggle-button, .profile-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .footer {
+            background: green;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .active-sidebar .left {
+            left: 0;
+        }
+
+        .active-profile .profile-sidebar {
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+
+            .header-container {
+                justify-content: center;
+            }
+
+            .toggle-button, .profile-button {
+                margin-right: 0;
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-left: 20px;
+            }
+
+            .left, .profile-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .active-sidebar .left, .active-profile .profile-sidebar {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="navbar">
+                <div class="toggle-button" onclick="toggleSidebar()">
+                    &#9776; Menu
+                </div>
+                <div class="profile-button" onclick="toggleProfileSidebar()">
+                    &#128100; Profile
+                </div>
+            </div>
+            <h1>IIT Dharwad Leave Approval Portal</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="left" id="sidebar">
+            <h2>Navigation</h2>
+            <ul>
+                
+                <li><a href="form.html">Request Approval</a></li>
+                <li><a href="#">Approval Status</a></li>
+            </ul>
+        </div>
+        <div class="profile-sidebar" id="profileSidebar">
+            <h2>User Profile</h2>
+            <p>Name: John Doe</p>
+            <p>Email: john.doe@example.com</p>
+        </div>
+        <div class="main-content" id="mainContent">
+            <h2>Welcome to IIT Dharwad Leave Approval Portal</h2>
+            <p>Some instructions to the students are:</p>
+            <ol>
+                <li>You can leave the campus only if your leave request is approved.</li>
+                <li>Any violations from the rules may lead to serious punishments.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>IIT Dharwad | All Rights Reserved</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const profileSidebar = document.getElementById('profileSidebar');
+
+            if (sidebar.style.left === '0px') {
+                sidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '100px';
+            } else {
+                sidebar.style.left = '0';
+                profileSidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '240px';
+            }
+        }
+
+        function toggleProfileSidebar() {
+            const profileSidebar = document.getElementById('profileSidebar');
+            const mainContent = document.getElementById('mainContent');
+            const sidebar = document.getElementById('sidebar');
+
+            if (profileSidebar.style.left === '0px') {
+                profileSidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '100px';
+            } else {
+                profileSidebar.style.left = '0';
+                sidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '240px';
+            }
+        }
+    </script>
+</body>
+</html>

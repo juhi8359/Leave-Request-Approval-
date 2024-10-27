@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Leave Requests</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; /* Use flexbox for centering */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            height: auto; /* Adjust height */
+            
+            background:radial-gradient(circle,white,rgb(219, 98, 98));
+        }
+
+        h1 {
+          color:black;
+            margin-bottom: 20px; /* Space between heading and content */
+            font-size: 2em; /* Increased font size for title */
+            text-align: center; /* Center title */
+        }
+
+        .details { 
+            border: 1px solid #ccc; 
+            padding: 30px; /* Increased padding for larger boxes */
+            border-radius: 5px; 
+            width: 100%; /* Increased width for larger boxes */
+            max-width: 800px; /* Increased max width for larger screens */
+            margin-bottom: 20px; 
+            background-color:whitesmoke; /* Light red background */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            text-align: center; /* Center the text inside the box */
+        }
+
+        .status { 
+            font-weight: bold; 
+            margin-top: 10px; 
+        }
+
+        /* Additional styling for no requests message */
+        .no-requests {
+            font-size: 1.2em; 
+            color: #666; 
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Rejected Leave Requests</h1>
+    <div id="rejectedRequests"></div>
+
+    <script>
+        const rejectedRequests = JSON.parse(localStorage.getItem('rejectedRequests')) || [];
+        const rejectedRequestsDiv = document.getElementById('rejectedRequests');
+
+        function renderRejectedRequests() {
+            rejectedRequestsDiv.innerHTML = '';
+
+            if (rejectedRequests.length === 0) {
+                rejectedRequestsDiv.innerHTML = '<p class="no-requests">No rejected requests found.</p>';
+                return;
+            }
+
+            // Render the rejected requests in their original order
+            rejectedRequests.forEach(request => {
+                const requestDiv = document.createElement('div');
+                requestDiv.className = 'details';
+
+                requestDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${request.name}</p>
+                    <p><strong>Roll Number:</strong> ${request.rollNo}</p>
+                    <p><strong>Phone Number:</strong> ${request.phone}</p>
+                    <p><strong>Going Out:</strong> ${request.dateOut}</p>
+                    <p><strong>Returning:</strong> ${request.dateIn}</p>
+                    <p><strong>Place of Visit:</strong> ${request.place}</p>
+                    <p class="status">Status: Rejected</p>
+                `;
+
+                rejectedRequestsDiv.appendChild(requestDiv);
+            });
+        }
+
+        renderRejectedRequests();
+    </script>
+</body>
+</html>
+
+
+

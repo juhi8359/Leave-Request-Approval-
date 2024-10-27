@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            background: url('download1.jpg') no-repeat center center fixed;
+        }
+
+        form {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(100, 48, 48, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.5)
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <form id="leaveRequestForm">
+        <h1>Leave Request Form</h1>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="rollNo" placeholder="Roll Number" required>
+        <input type="tel" id="phone" placeholder="Phone Number" required>
+        <input type="date" id="dateOut" required>
+        <input type="date" id="dateIn" required>
+        <input type="text" id="place" placeholder="Place of Visit" required>
+        <button type="submit">Submit</button>
+        <div class="message" id="successMessage" style="display:none;"></div>
+    </form>
+
+    <script>
+    
+        document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const name = document.getElementById('name').value;
+            const rollNo = document.getElementById('rollNo').value;
+            const phone = document.getElementById('phone').value;
+            const dateOut = document.getElementById('dateOut').value;
+            const dateIn = document.getElementById('dateIn').value;
+            const place = document.getElementById('place').value;
+
+            localStorage.setItem('leaveRequest', JSON.stringify({ name, rollNo, phone, dateOut, dateIn, place }));
+            const successMessage = document.getElementById('successMessage');
+            successMessage.innerText = `Leave request submitted for ${name} (${rollNo}).`;
+            successMessage.style.display = 'block';
+            this.reset();
+        });
+    </script>
+</body>
+</html>

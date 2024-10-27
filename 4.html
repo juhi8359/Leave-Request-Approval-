@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IIT Dharwad Leave Approval Portal - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            background: url('m.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        header {
+            background: green;
+            color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            flex: 1;
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            padding: 20px;
+            width: 100%;
+            height: calc(100% - 60px); /* Adjust for header and footer height */
+            margin-top: 60px; /* Space for header */
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .left {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: calc(100% - 80px); /* Adjust based on header height */
+            top:40px;
+            left: -280px;
+            transition: left 0.3s ease-in-out;
+            z-index: 999;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            margin-top: 50px;
+            padding: 20px;
+            font-weight: bold;
+            line-height: 30px;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .footer {
+            background: green;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .active-sidebar .left {
+            left: 0;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+
+            .header-container {
+                justify-content: center;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .left {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .active-sidebar .left {
+                left: 0;
+            }
+        }
+
+        .sidebar-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-links li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-links a {
+            text-decoration: none;
+            color: green;
+            font-size: 1.1em;
+        }
+
+        .sidebar-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="navbar">
+                <div class="toggle-button" onclick="toggleSidebar()">
+                    &#9776; Menu
+                </div>
+            </div>
+            <h1>IIT Dharwad Leave Approval Portal - Admin Panel</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="left" id="sidebar">
+            <h2>Admin Navigation</h2>
+            <ul class="sidebar-links">
+                <li><a href="adminpanel.html">Accepted Records</a></li>
+                <li><a href="display.html">Pending Requests</a></li>
+                <li><a href="rejected.html">Rejected Requests</a></li>
+                <li><a href="entryrecords.html">Entry Record</a></li>
+            </ul>
+        </div>
+        <div class="main-content" id="mainContent">
+            <h2>Welcome to the Admin Panel</h2>
+            <p>Manage leave requests and approvals here.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>IIT Dharwad | Admin Panel | All Rights Reserved</p>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (sidebar.style.left === '0px') {
+                sidebar.style.left = '-250px';
+                mainContent.style.marginLeft = '20px';
+            } else {
+                sidebar.style.left = '0';
+                mainContent.style.marginLeft = '240px';
+            }
+        }
+    </script>
+</body>
+</html>

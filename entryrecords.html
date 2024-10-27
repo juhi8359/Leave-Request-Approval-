@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry Records</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            height: auto; /* Adjust height */
+          background-size: contain;
+            background-image:url("m.jpg");
+          background-attachment: fixed;
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Space between heading and content */
+            font-size: 2em; /* Increased font size for title */
+            color: white; /* Darker color for contrast */
+            text-align: center; /* Center title */
+        }
+
+        .header {
+            background-color:green; /* Green background for the header */
+            color: white; /* White text color */
+            width: 100%; /* Full width for the header */
+            text-align: center; /* Center text */
+            border-radius: 5px; /* Rounded corners for the header */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin-bottom: 20px; /* Space below the header */
+        }
+
+        #entryRecords {
+            display: flex;
+            flex-direction: column; /* Stack divs vertically */
+            align-items: center; /* Center horizontally */
+            width: 100%; /* Full width for the entry records */
+        }
+
+        .details { 
+            border: 1px solid #ccc; 
+            padding: 20px; /* Adjusted padding for bigger divs */
+            border-radius: 10px; /* Rounded corners for a softer look */
+            width: 90%; /* Responsive width */
+            max-width: 600px; /* Max width for larger screens */
+            margin-bottom: 20px; 
+            background-color: #ffffff; /* White background for cards */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+        }
+
+        .details:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+        }
+
+        p {
+            margin: 8px 0; /* Space between paragraphs */
+            line-height: 1.5; /* Increased line height for readability */
+        }
+
+        strong {
+            color: #007bff; /* Primary color for labels */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Entry Records</h1>
+    </div>
+    <div id="entryRecords"></div>
+
+    <script>
+        const entryRecords = JSON.parse(localStorage.getItem('entryRecords')) || [];
+        const entryRecordsDiv = document.getElementById('entryRecords');
+
+        function renderEntryRecords() {
+            entryRecordsDiv.innerHTML = '';
+
+            // Loop through entry records to display each request
+            for (const request of entryRecords) {
+                const requestDiv = document.createElement('div');
+                requestDiv.className = 'details';
+
+                requestDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${request.name}</p>
+                    <p><strong>Roll Number:</strong> ${request.rollNo}</p>
+                    <p><strong>Phone Number:</strong> ${request.phone}</p>
+                    <p><strong>Going Out:</strong> ${request.dateOut}</p>
+                    <p><strong>Returning:</strong> ${request.dateIn}</p>
+                    <p><strong>Place of Visit:</strong> ${request.place}</p>
+                    <p><strong>In Time:</strong> ${request.inTime || 'Not set'}</p>
+                    <p><strong>Out Time:</strong> ${request.outTime || 'Not set'}</p>
+                `;
+                entryRecordsDiv.appendChild(requestDiv);
+            }
+        }
+
+        renderEntryRecords();
+    </script>
+</body>
+</html>

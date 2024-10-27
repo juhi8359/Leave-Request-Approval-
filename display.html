@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Details</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; /* Use flexbox for centering */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            height: auto; /* Adjust height */
+            background-color: #f9f9f9; /* Light background for contrast */
+            background-size: contain;
+            background-image:url("m.jpg");
+          background-attachment: fixed;
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Space between heading and content */
+            font-size: 2em; /* Increased font size for title */
+            color: #333; /* Darker color for contrast */
+            text-align: center; /* Center title */
+        }
+
+        .details { 
+            border: 1px solid #ccc; 
+            padding: 30px; /* Increased padding for larger boxes */
+            border-radius: 5px; 
+            width: 100%; /* Increased width for larger boxes */
+            max-width: 600px; /* Increased max width for larger screens */
+            margin-bottom: 20px; 
+            background-color: #fff; /* White background for cards */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            text-align: left; /* Left-align text inside the box */
+        }
+
+        .rejected { 
+            background-color: #f8d7da; /* Light red */
+        }
+
+        .status { 
+            font-weight: bold; 
+            margin-top: 10px; 
+        }
+
+        button {
+            margin-top: 10px; /* Space between status and buttons */
+            padding: 10px 15px; /* Padding for buttons */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Rounded corners for buttons */
+            background-color: #007bff; /* Button color */
+            color: white; /* Text color */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Leave Request Details</h1>
+    <div id="requestDetails"></div>
+
+    <script>
+        const leaveRequests = JSON.parse(localStorage.getItem('leaveRequests')) || [];
+        const approvedRequests = JSON.parse(localStorage.getItem('approvedRequests')) || [];
+        const rejectedRequests = JSON.parse(localStorage.getItem('rejectedRequests')) || [];
+
+        const requestDetailsDiv = document.getElementById('requestDetails');
+
+        function renderRequests() {
+            requestDetailsDiv.innerHTML = '';
+
+            leaveRequests.slice().reverse().forEach(request => {
+                const requestDiv = document.createElement('div');
+                requestDiv.className = 'details';
+
+                if (request.status === 'rejected') {
+                    requestDiv.classList.add('rejected');
+                }
+
+                requestDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${request.name}</p>
+                    <p><strong>Roll Number:</strong> ${request.rollNo}</p>
+                    <p><strong>Phone Number:</strong> ${request.phone}</p>
+                    <p><strong>Going Out:</strong> ${request.dateOut}</p>
+                    <p><strong>Returning:</strong> ${request.dateIn}</p>
+                    <p><strong>Place of Visit:</strong> ${request.place}</p>
+                `;
+
+                if (request.status === 'rejected') {
+                    requestDiv.innerHTML += `<p class="status">Status: Rejected</p>`;
+                } else {
+                    requestDiv.innerHTML += `
+                        <button onclick="approveRequest('${request.id}')">Approve</button>
+                        <button onclick="rejectRequest('${request.id}')">Reject</button>
+                    `;
+                }
+
+                requestDetailsDiv.appendChild(requestDiv);
+            });
+        }
+
+        function approveRequest(id) {
+            const requestIndex = leaveRequests.findIndex(request => request.id === id);
+            if (requestIndex !== -1) {
+                leaveRequests[requestIndex].status = 'approved';
+                
+                // Move the approved request to approvedRequests array and save it
+                const approvedRequest = leaveRequests.splice(requestIndex, 1)[0];
+                approvedRequests.push(approvedRequest);
+                saveAndRender();
+            }
+        }
+
+        function rejectRequest(id) {
+            const requestIndex = leaveRequests.findIndex(request => request.id === id);
+            if (requestIndex !== -1) {
+                leaveRequests[requestIndex].status = 'rejected';
+                
+                // Move the rejected request to rejectedRequests array and save it
+                const rejectedRequest = leaveRequests.splice(requestIndex, 1)[0];
+                rejectedRequests.push(rejectedRequest);
+                localStorage.setItem('rejectedRequests', JSON.stringify(rejectedRequests)); // Save rejected requests
+                saveAndRender();
+            }
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('leaveRequests', JSON.stringify(leaveRequests));
+            localStorage.setItem('approvedRequests', JSON.stringify(approvedRequests));
+            renderRequests();
+        }
+
+        renderRequests();
+    </script>
+</body>
+</html>
+
+
+

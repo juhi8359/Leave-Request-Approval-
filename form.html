@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f9fa;
+            background:radial-gradient(circle,white,rgb(168, 226, 168)) no-repeat center center fixed;
+            flex-direction: column; /* Align items in a column */
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #333; /* Color for better visibility */
+        }
+
+        form {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(100, 48, 48, 0.2);
+            text-align: center;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leave Request Form</h1>
+    <form id="leaveForm">
+        <label>Name: <input type="text" id="name" required></label><br>
+        <label>Roll No: <input type="text" id="rollNo" required></label><br>
+        <label>Phone: <input type="text" id="phone" required></label><br>
+        <label>Date Out: <input type="date" id="dateOut" required></label><br>
+        <label>Date In: <input type="date" id="dateIn" required></label><br>
+        <label>Place of Visit: <input type="text" id="place" required></label><br>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message" class="message"></p>
+
+    <script>
+        document.getElementById('leaveForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const rollNo = document.getElementById('rollNo').value;
+            const phone = document.getElementById('phone').value;
+            const dateOut = document.getElementById('dateOut').value;
+            const dateIn = document.getElementById('dateIn').value;
+            const place = document.getElementById('place').value;
+
+            // Create a new request object with a unique id
+            const newRequest = {
+                id: Date.now().toString(), // unique ID based on current timestamp
+                name,
+                rollNo,
+                phone,
+                dateOut,
+                dateIn,
+                place,
+                status: 'pending'
+            };
+
+            // Retrieve the existing leaveRequests array from localStorage or initialize a new array
+            const leaveRequests = JSON.parse(localStorage.getItem('leaveRequests')) || [];
+            leaveRequests.push(newRequest); // Add the new request
+            localStorage.setItem('leaveRequests', JSON.stringify(leaveRequests)); // Save to localStorage
+
+            document.getElementById('message').textContent = 'Your leave request has been submitted!';
+            document.getElementById('leaveForm').reset(); // Clear the form
+        });
+    </script>
+</body>
+</html>
+

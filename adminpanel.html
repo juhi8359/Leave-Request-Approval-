@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            height: 100vh; /* Full height */
+           background:radial-gradient(circle,white,rgb(179, 205, 179));
+        h1 {
+            margin-bottom: 20px; /* Space between heading and content */
+        }
+        #approvedRequests {
+            display: flex;
+            flex-direction: column; /* Stack divs vertically */
+            align-items: center; /* Center horizontally */
+        }
+        .details { 
+            border: 1px solid #ccc; 
+            padding: 30px; /* Increased padding for bigger divs */
+            border-radius: 5px; 
+            width: 500px; /* Increased width for bigger divs */
+            margin-bottom: 20px; 
+            background-color: #fff; /* White background for cards */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .status { 
+            font-weight: bold; 
+            margin-top: 10px; 
+        }
+        button { 
+            margin-top: 10px; 
+            padding: 5px 10px; 
+            cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Approved Leave Requests</h1>
+    <div id="approvedRequests"></div>
+
+    <script>
+        const approvedRequests = JSON.parse(localStorage.getItem('approvedRequests')) || [];
+        const entryRecords = JSON.parse(localStorage.getItem('entryRecords')) || [];
+        const approvedRequestsDiv = document.getElementById('approvedRequests');
+
+        function renderApprovedRequests() {
+            approvedRequestsDiv.innerHTML = '';
+
+            // Loop in reverse to display the latest requests first
+            for (let i = approvedRequests.length - 1; i >= 0; i--) {
+                const request = approvedRequests[i];
+                const requestDiv = document.createElement('div');
+                requestDiv.className = 'details';
+
+                requestDiv.innerHTML = `
+                    <p><strong>Name:</strong> ${request.name}</p>
+                    <p><strong>Roll Number:</strong> ${request.rollNo}</p>
+                    <p><strong>Phone Number:</strong> ${request.phone}</p>
+                    <p><strong>Going Out:</strong> ${request.dateOut}</p>
+                    <p><strong>Returning:</strong> ${request.dateIn}</p>
+                    <p><strong>Place of Visit:</strong> ${request.place}</p>
+                    <p class="status">Status: Approved</p>
+                    <p><strong>In Time:</strong> <span id="inTime-${request.id}">${request.inTime || 'Not set'}</span> 
+                `;
+
+                // Only show the button if inTime is not set
+                if (!request.inTime) {
+                    requestDiv.innerHTML += `
+                    <button id="inTimeBtn-${request.id}" onclick="setInTime('${request.id}', this)">Set In Time</button>
+                    `;
+                }
+
+                requestDiv.innerHTML += `</p><p><strong>Out Time:</strong> <span id="outTime-${request.id}">${request.outTime || 'Not set'}</span> `;
+
+                // Only show the button if outTime is not set
+                if (!request.outTime) {
+                    requestDiv.innerHTML += `
+                    <button id="outTimeBtn-${request.id}" onclick="setOutTime('${request.id}', this)">Set Out Time</button>
+                    `;
+                }
+
+                requestDiv.innerHTML += `</p>`;
+                approvedRequestsDiv.appendChild(requestDiv);
+            }
+        }
+
+        function setInTime(id, button) {
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString();
+            const requestIndex = approvedRequests.findIndex(request => request.id === id);
+            if (requestIndex !== -1) {
+                approvedRequests[requestIndex].inTime = formattedTime; // Save to the request object
+                localStorage.setItem('approvedRequests', JSON.stringify(approvedRequests)); // Save to localStorage
+                document.getElementById(`inTime-${id}`).textContent = formattedTime; // Update UI
+                button.style.display = 'none'; // Hide the button after clicking
+                checkAndRemoveRequest(requestIndex); // Check if both times are set
+            }
+        }
+
+        function setOutTime(id, button) {
+            const now = new Date();
+            const formattedTime = now.toLocaleTimeString();
+            const requestIndex = approvedRequests.findIndex(request => request.id === id);
+            if (requestIndex !== -1) {
+                approvedRequests[requestIndex].outTime = formattedTime; // Save to the request object
+                localStorage.setItem('approvedRequests', JSON.stringify(approvedRequests)); // Save to localStorage
+                document.getElementById(`outTime-${id}`).textContent = formattedTime; // Update UI
+                button.style.display = 'none'; // Hide the button after clicking
+                checkAndRemoveRequest(requestIndex); // Check if both times are set
+            }
+        }
+
+        function checkAndRemoveRequest(index) {
+            const request = approvedRequests[index];
+            // Check if both inTime and outTime are set
+            if (request.inTime && request.outTime) {
+                // Move to entry records
+                entryRecords.push(request);
+                localStorage.setItem('entryRecords', JSON.stringify(entryRecords)); // Save to localStorage
+                approvedRequests.splice(index, 1); // Remove from approved requests
+                localStorage.setItem('approvedRequests', JSON.stringify(approvedRequests)); // Update localStorage
+                renderApprovedRequests(); // Re-render the approved requests
+            }
+        }
+
+        renderApprovedRequests();
+    </script>
+</body>
+</html>

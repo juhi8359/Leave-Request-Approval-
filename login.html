@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="2.css">
+</head>
+<body>
+        <div class="container">  
+            <div class="welcome-container">
+                <h1 class="welcome-text">Welcome to IITDH</h1>
+            </div>
+            <div class="heading">
+                <img src="logo.jpg" alt="Logo" class="logo"> 
+            </div>
+            <h2>Login</h2>
+            <form id="myform" onsubmit="handleSubmit(event)">
+                <label for="email">Email:</label><br>
+                <input type="email" class="class" name="email" id="email" required><br>
+
+                <label for="password">Password:</label><br>
+                <input type="password" class="class" name="password" id="password" required><br>
+
+                <div id="box">
+                    <div id="radio1">
+                        <input type="radio" name="userType" id="admin" value="admin" required>
+                        <label for="admin">Admin</label>
+                    </div>
+                    <div id="radio2">
+                        <input type="radio" name="userType" id="student" value="student" required>
+                        <label for="student">Student</label>
+                    </div>
+                </div>
+            
+                <button type="submit" onclick="validateForm(event)">Login</button>
+            </form>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>
